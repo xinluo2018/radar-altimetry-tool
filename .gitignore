@@ -1,0 +1,6 @@
+*/.DS_Store
+data/*
+!data/*.geojson
+.venv
+__pycache__
+.vscode
