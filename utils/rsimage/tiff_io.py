@@ -4,7 +4,10 @@ import numpy as np
 ### tiff image reading
 def readTiff(path_in):
     '''
-    return: numpy array, dimentions order: (row, col, band)
+    author: xin luo, date: 2021.4.11
+    return: 
+        img: numpy array, exent: tuple, (x_min, x_max, y_min, y_max) 
+        proj info, and dimentions: (row, col, band)
     '''
     RS_Data=gdal.Open(path_in)
     im_col = RS_Data.RasterXSize  # 
@@ -13,11 +16,17 @@ def readTiff(path_in):
     im_geotrans = RS_Data.GetGeoTransform()  # 
     im_proj = RS_Data.GetProjection()  # 
     RS_Data = RS_Data.ReadAsArray(0, 0, im_col, im_row)  # 
+    x_min = im_geotrans[0]
+    x_max = x_min + im_geotrans[1] * im_col
+    y_max = im_geotrans[3]
+    y_min = y_max + im_geotrans[5] * im_row
+    extent = (x_min,x_max, y_min, y_max)
+
     if im_bands > 1:
         RS_Data = np.transpose(RS_Data, (1, 2, 0)).astype(np.float)  # 
-        return RS_Data,im_geotrans,im_proj,im_row,im_col,im_bands
+        return RS_Data,extent,im_proj,im_row,im_col,im_bands
     else:
-        return RS_Data,im_geotrans,im_proj,im_row,im_col,im_bands
+        return RS_Data,extent,im_proj,im_row,im_col,im_bands
 
 ###  .tiff image write
 def writeTiff(im_data, im_geotrans, im_proj, path_out):

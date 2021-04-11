@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-def imgShow(img, col_bands=(2,1,0), clip_percent=2, per_band_clip='False'):
+def imgShow(img, extent=None, col_bands=(2,1,0), clip_percent=2, per_band_clip='False'):
     '''
     Arguments:
         img: (row, col, band) or (row, col)
@@ -16,9 +16,9 @@ def imgShow(img, col_bands=(2,1,0), clip_percent=2, per_band_clip='False'):
         img[where_are_NaNs] = 0
     elif np.min(img) == np.max(img):
         if len(img.shape) == 2:
-            plt.imshow(np.clip(img, 0, 1),vmin=0,vmax=1) 
+            plt.imshow(np.clip(img, 0, 1), extent=extent, vmin=0,vmax=1) 
         else:
-            plt.imshow(np.clip(img[:,:,0], 0, 1),vmin=0,vmax=1)
+            plt.imshow(np.clip(img[:,:,0], 0, 1), extent=extent, vmin=0,vmax=1)
     else:
         if len(img.shape) == 2:
             img_color = img
@@ -34,4 +34,4 @@ def imgShow(img, col_bands=(2,1,0), clip_percent=2, per_band_clip='False'):
             img_color_hist = np.percentile(img_color, [clip_percent, 100-clip_percent])
             img_color_clip = (img_color-img_color_hist[0])\
                                     /(img_color_hist[1]-img_color_hist[0])
-        plt.imshow(np.clip(img_color_clip, 0, 1),vmin=0,vmax=1)
+        plt.imshow(np.clip(img_color_clip, 0, 1), extent=extent, vmin=0,vmax=1)
