@@ -2,44 +2,44 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torchsummary import summary
 
+# class cnn_1d(nn.Module):
+#     def __init__(self):
+#         super(cnn_1d, self).__init__()
+#         ## input data channel:1, output channels:6, convolution: 6
+#         self.conv1 = nn.Conv1d(1, 16, 6, stride=2, padding=0)
+#         self.bn1 = nn.BatchNorm1d(16)
+#         self.conv2 = nn.Conv1d(16, 32, 6, stride=2, padding=0)
+#         self.bn2 = nn.BatchNorm1d(32)
+#         self.conv3 = nn.Conv1d(32, 64, 4, stride=2, padding=0)
+#         self.bn3 = nn.BatchNorm1d(64)
+#         self.conv4 = nn.Conv1d(64, 128, 4, stride=3, padding=0)
+#         self.bn4 = nn.BatchNorm1d(128)
+#         ## an affine operation: y = Wx + b
+#         self.fc1 = nn.Linear(128*4, 120)  #
+#         self.bn5 = nn.BatchNorm1d(120)
+#         self.fc2 = nn.Linear(120, 2)
+
+#     def forward(self, x):
+#         ## x = F.dropout(F.relu(self.conv1(x)),p=0.2)
+#         x = F.relu(self.bn1(self.conv1(x)))
+#         x = F.dropout(x, p=0.2)
+#         x = F.relu(self.bn2(self.conv2(x)))
+#         x = F.dropout(x, p=0.2)
+#         x = F.relu(self.bn3(self.conv3(x)))
+#         x = F.dropout(x, p=0.2)
+#         x = F.relu(self.bn4(self.conv4(x)))
+#         x = F.dropout(x, p=0.2)
+#         x = x.view(-1, 128 * 4)
+#         x = F.relu(self.bn5(self.fc1(x)))
+#         x = F.dropout(x, p=0.2)
+#         x = self.fc2(x)
+#         return x
+
+
 class cnn_1d(nn.Module):
     def __init__(self):
         super(cnn_1d, self).__init__()
-        # input data channel:1, output channels:6, convolution: 6
-        self.conv1 = nn.Conv1d(1, 16, 6, stride=2, padding=0)
-        self.bn1 = nn.BatchNorm1d(16)
-        self.conv2 = nn.Conv1d(16, 32, 6, stride=2, padding=0)
-        self.bn2 = nn.BatchNorm1d(32)
-        self.conv3 = nn.Conv1d(32, 64, 4, stride=2, padding=0)
-        self.bn3 = nn.BatchNorm1d(64)
-        self.conv4 = nn.Conv1d(64, 128, 4, stride=3, padding=0)
-        self.bn4 = nn.BatchNorm1d(128)
-        # an affine operation: y = Wx + b
-        self.fc1 = nn.Linear(128*4, 120)  #
-        self.bn5 = nn.BatchNorm1d(120)
-        self.fc2 = nn.Linear(120, 2)
-
-    def forward(self, x):
-        # x = F.dropout(F.relu(self.conv1(x)),p=0.2)
-        x = F.relu(self.bn1(self.conv1(x)))
-        x = F.dropout(x, p=0.2)
-        x = F.relu(self.bn2(self.conv2(x)))
-        x = F.dropout(x, p=0.2)
-        x = F.relu(self.bn3(self.conv3(x)))
-        x = F.dropout(x, p=0.2)
-        x = F.relu(self.bn4(self.conv4(x)))
-        x = F.dropout(x, p=0.2)
-        x = x.view(-1, 128 * 4)
-        x = F.relu(self.bn5(self.fc1(x)))
-        x = F.dropout(x, p=0.2)
-        x = self.fc2(x)
-        return x
-
-
-class cnn_1d_improve(nn.Module):
-    def __init__(self):
-        super(cnn_1d_improve, self).__init__()
-        # input data channel:1, output channels:6, convolution: 6
+        # input data channel:1
         self.conv11 = nn.Conv1d(1, 16, 3, stride=1, padding=1)
         self.bn11 = nn.BatchNorm1d(16)
         self.conv12 = nn.Conv1d(16, 16, 3, stride=1, padding=1)
