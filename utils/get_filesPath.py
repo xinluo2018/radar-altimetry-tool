@@ -1,5 +1,9 @@
-import os
+## author: xin luo 
+# creat: 2022.9.26
+# des: get specific files in the given directory.
 
+
+import os
 
 def get_filesPath(base, key_words):
     '''
@@ -10,6 +14,8 @@ def get_filesPath(base, key_words):
     ouput:
         files_path: list, contains all the obtained file paths (string).
     '''
+    if base == '':
+        base = os.getcwd()
     file_paths = []
     for root, ds, fs in os.walk(base):
         for f in fs:

@@ -1,3 +1,7 @@
+## author: xin luo 
+# creat: 2022.9.26
+# des: script for model training 
+
 import torch
 
 def train_model(model, train_dloader, optimizer, loss_fun, epochs, val_dloader=None, vis_step=10):

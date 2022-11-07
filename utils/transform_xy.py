@@ -1,4 +1,8 @@
-### ----- author: luo xin, creat: 2021.6.15, modify: 2021.6.23 -----
+### ----- 
+# author: luo xin, 
+# creat: 2021.6.15, modify: 2021.6.23 
+# des: image location transform between different coordinate systems 
+# -----
 
 import pyproj
 import numpy as np
@@ -10,7 +14,7 @@ def coor2coor(srs_from, srs_to, x, y):
         srs_from and srs_to are EPSG number (e.g., 4326, 3031)
         x and y are x-coord and y-coord corresponding to srs_from and srs_to    
     return:
-        x-coord and y-coord in srs_to 
+        x-coord and y-coord in srs_to
     """
     srs_from = pyproj.Proj(int(srs_from))
     srs_to = pyproj.Proj(int(srs_to))
@@ -19,6 +23,7 @@ def coor2coor(srs_from, srs_to, x, y):
 def geo2imagexy(x, y, gdal_trans):
     '''
     des: from georeferenced location (i.e., lon, lat) to image location(col,row).
+    note: the coordinate system should be same between x/y and gdal_trans.
     input:
         gdal_trans: obtained by gdal.Open() and .GetGeoTransform(), or by geotif_io.readTiff()['geotrans']
         x: project or georeferenced x, i.e.,lon
