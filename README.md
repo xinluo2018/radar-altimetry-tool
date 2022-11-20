@@ -12,6 +12,4 @@ Download from: https://scihub.copernicus.eu/dhus/#/home
 2) we use ransac algorithm for the elevation values filterd and prediction.
 
 ## Todo
-1) complete the cryosat-2 data read and write out.
-2） cryosat, jason-3 data processing.
-3) modify the utils/elev_cal_s3l2-modify.py, make this script can calculate the inland water height correctly (current is the sea surface height anomaly calculation).
+1) modify the utils/elev_cal_s3l2-modify.py, make this script can calculate the inland water height correctly (current is the sea surface height anomaly calculation).
