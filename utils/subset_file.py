@@ -1,11 +1,11 @@
-# author: xin luo
-# create: 2022.10.19
-# des: subset file with given extent, or mask image, or time range.
+## author: xin luo
+## create: 2021.8.30; update: 2023.1.18
+## des: subset file (!!!.h5 file packaged Dictionary data) with given extent, or mask image, or time range.
 
 '''
 example:
-    python subset_s3l2.py ./input/path/*.h5 -r 90 91 30 31 -t 2008.1 2008.4
-    python subset_s3l2.py ./input/path/*.h5 -m ./data/mask.tif -t 2008.1 2008.4
+    python subset_file.py ./input/path/*.h5 -r 90 91 30 31 -t 2008.1 2008.4 -c lon lat -tn t_dyr -o save/to/path.h5
+    python subset_file.py ./input/path/*.h5 -m ./data/mask.tif -t 2008.1 2008.4 -c lon lat -tn t_dyr
 '''
 
 import os
@@ -20,10 +20,14 @@ def get_args():
 
     """ Get command-line arguments. """
     parser = argparse.ArgumentParser(
-            description='subset sentinle-3 l2 data by extent or time')
+            description='subset icesat2 data by extent or time')
     parser.add_argument(
             'ifile', metavar='ifile', type=str, nargs='+',
             help='single or multiple file(s) (HDF5)')
+    parser.add_argument(
+            '-o', metavar='ofile', dest='ofile', type=str, nargs=1,
+            help=('name of the output file'),
+            default=[None]),
     parser.add_argument(
             '-r', metavar=('w','e','s','n'), dest='extent', type=float, nargs=4,
             help=('region for data subset (km)'),
@@ -95,21 +99,24 @@ def readTiff(path_in):
     else:
         return img_array, img_info
 
-def subset(ifile, extent=[None,None,None,None], time_range=[None, None], \
-                            extent_mask=[None, None], time_name=None, coord_name=['lon', 'lat']):
+def subset(ifile, ofile=None, extent=[None,None,None,None], time_range=[None, None], \
+                            extent_mask=[None, None], time_name=None, coord_name=['h_lon', 'h_lat']):
     '''args:
         ifile: input file path
+        ofile: output file path
         extent: [lon_min, lon_max, lat_min, lat_max], the extent points should be wgs84 coordinate.
         time_range: [time_start, time_end]
         extent_mask: [raster_mask, geotrans_gdal]
         time_name: attribute name for time in h5 file
-        coord_name: [cooridinates name for lon, attribute name for lat]
+        coord_name: [attribute name for lon, attribute name for lat]
       '''
 
     print(('input -> ', ifile))
     lon_name, lat_name = coord_name
     path, ext = os.path.splitext(ifile)
-    ofile = path+'_subs'+ ext
+    if ofile is None:
+        ofile = path+'_subs'+ ext
+    if os.path.exists(ofile): os.remove(ofile)
     ## read in data
     with h5py.File(ifile, 'r') as fi:
         vnames = list(fi.keys())
@@ -134,7 +141,8 @@ def subset(ifile, extent=[None,None,None,None], time_range=[None, None], \
         ## ensure the row, col fall in the image
         row[row >= raster_mask.shape[0]] = raster_mask.shape[0]-1
         col[col >= raster_mask.shape[1]] = raster_mask.shape[1]-1
-        row[row < 0] = 0; col[col < 0] = 0  
+        row[row < 0] = 0; 
+        col[col < 0] = 0
         photon_mask = raster_mask[row, col]
         photon_sel = photon_mask == 1
         for vname in vnames:
@@ -163,6 +171,7 @@ if __name__ == '__main__':
     # Pass arguments 
     args = get_args()
     ifiles = args.ifile[:]           # input file(s)
+    ofile = args.ofile[0]           # output file(s)
     extent = args.extent[:]          # lon/lat variable names
     mask_path = args.mask_file[:]
     coord_name = args.coord_name[:]
@@ -178,7 +187,5 @@ if __name__ == '__main__':
     else:
         extent_mask = [None, None]
 
-    [subset(f, extent, time_range, \
+    [subset(f, ofile, extent, time_range, \
                     extent_mask, time_name, coord_name) for f in ifiles]
-
-

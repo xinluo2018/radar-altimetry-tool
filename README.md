@@ -1,15 +1,22 @@
-# sentinel3-altimetry-l2
-Toolbox for sentinel-3 altimetry level2 product processing
+# radar-altimetry-tool
+Toolbox for radar altimetry products (sentinel-3, jason-1/2/3, cryosat-2, et al.) processing
+
 ## 1. Introduction
 This repository is built for the radar/sar altimetry data processing. this repository contains folders as follows:
 1) notebook: basic workflow for main processing.
 2) utils: .py file corresponding to the processing functions built in this repo.
+
 ## 2. Data
-Download from: https://scihub.copernicus.eu/dhus/#/home
+Sentinel-3: Download from: https://scihub.copernicus.eu/dhus/#/home;
+Jason-1/2/3 data: https://www.ncei.noaa.gov/data/oceans/jason3/;
+Cryosat-2 data: download from: https://eocat.esa.int/sec/#data-services-area/search?osParameters=%7B%22EOCAT-CryoSat.products%22:%22%22,%22commonCriteria%22:%22bbox=-180,-90,180,90%22%7D;  
+Note: the ftp account: Username: <u>anonymous</u>; Password: <u>your email address</u>
+
 
 ## 3. Features
-1) we construct a 1d-cnn (1 dimentional convolutional neural network) model for the ocean-like waveform recognition.
-2) we use ransac algorithm for the elevation values filterd and prediction.
+1) read and write out data
+
+
 
 ## Todo
-1) modify the utils/elev_cal_s3l2-modify.py, make this script can calculate the inland water height correctly (current is the sea surface height anomaly calculation).
+

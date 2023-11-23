@@ -121,7 +121,8 @@ def sort_files(ifiles, key=None):
 
 
 def merge(ifiles, ofile, vnames, comp):
-    ''' des: merge the similar files into one file
+    ''' 
+    des: merge the similar files into one file
     arg:
         ifiles: list with strs, files need to be merged.
         ofile: str, the name of the merged file.     
@@ -150,7 +151,6 @@ def merge(ifiles, ofile, vnames, comp):
                     k2 = k1 + list(f2.values())[0].shape[0]  # k1, k2: the location of the var in the merged file
                     # Iterate over all variables
                     out_f[key][k1:k2] = f2[key][:]
-
                 k1 = k2
     
     print(('merged', len(ifiles), 'files'))
@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
     args = get_args() 
     ifile = args.ifile[:]       # list
-    ofile = args.ofile[0]      # str
+    ofile = args.ofile[0]       # str
     nfiles = args.nfiles[0]
     vnames = args.vnames
     comp = args.comp[0]
